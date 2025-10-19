@@ -1,16 +1,19 @@
-                Toyota Servis Yonetimi 
+                  Toyota Servis Yonetimi 
 
- projenin ana dizininde (windows için powershell / cmd) $"docker-compose up --build"  komutunu çalýþtýrarak projeyi kaldýrabilirsiniz
- Docker Compose ile baþlatýlmýþ servisleri ve iliþkili volumeleri temizlemek için  $"docker-compose down -v" kullanabilirsiniz
+ projenin ana dizininde (windows için powershell / cmd) "docker-compose up --build"  komutunu çalýþtýrarak projeyi kaldýrabilirsiniz
 
- ################# Proje hakkýnda #################
+ Docker Compose ile baþlatýlmýþ servisleri ve iliþkili volumeleri temizlemek için  "docker-compose down -v" kullanabilirsiniz
+
+                   Proje hakkýnda    
 
  Onion Architecture yaklaþýmýnda bir mimariye sahiptir
- Api olarak belirtilen klasörün içinde datanýn aktýðý Toyota.Api ve frontend projesi olan Toyota.Web bulunmaktadýr
- $"docker-compose up --build" komutu ile mssql, api ve web projeleri ayaða kaldýrýlýr
-    
-    --Api projesinin kalktýðý url;
 
+ Api olarak belirtilen klasörün içinde datanýn aktýðý Toyota.Api ve frontend projesi olan Toyota.Web bulunmaktadýr
+
+ "docker-compose up --build" komutu ile mssql, api ve web projeleri ayaða kaldýrýlýr
+
+    
+    --Api  Url;
         http://localhost:5006/swagger/index.html
 
             {
@@ -18,8 +21,7 @@
               "Password": "TestAdmin312"
             }
 
-    --Web projesinin kalktýðý url;
-
+    --Web Url;
         http://localhost:5008
 
     --mssql eriþim bilgileri
@@ -28,14 +30,18 @@
        password : Password1*
 
 
- proje kalkarken db oluþturulur ve ilk admin kullanýcýsý insert edilir
+ Proje baþlatýlýrken, veritabaný oluþturulur ve ilk yönetici kullanýcýsý eklenir.
+
  Toyota.Api / Data / cities.txt db ye aktarýlýr
 
  projelerde .NET 8 kullanýlmýþtýr 
- web projesi .NET 8 MVC olarak oluþturulmuþtur fakat MVC yapýsý sadece frontend e navigasyon ve auth saðlamak için kullanýlmýþtýr
 
- Projede servis kayýtlarý  ve appalication loglarý olmak üzere 2 adet loglama bulunur
-  servis kayýtlarý db de saklanýr application loglarý ise Toyota.Api/Data/ApplicationLogs.txt de saklanýr ve her bir log 1 satýrlýk alana yazýlýr
+ web projesi .NET 8 MVC olarak oluþturulmuþtur fakat MVC yapýsý sadece frontende navigasyon ve auth saðlamak için kullanýlmýþtýr
+
+ Projede servis kayýtlarý ve appalication loglarý olmak üzere 2 adet loglama bulunur
+
+ servis kayýtlarý dbde saklanýr application loglarý ise Toyota.Api/Data/ApplicationLogs.txt de saklanýr ve her bir log 1 satýrlýk alana yazýlýr
+ 
  servis kayýtlarý için listeleme, insert, update ve delete iþlemleri yapýlabilir, 
         
     
