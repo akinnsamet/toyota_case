@@ -1,15 +1,13 @@
-# ################# Toyota Servis Yonetimi ################# 
+                Toyota Servis Yonetimi 
 
+ projenin ana dizininde (windows için powershell / cmd) $"docker-compose up --build"  komutunu çalýþtýrarak projeyi kaldýrabilirsiniz
+ Docker Compose ile baþlatýlmýþ servisleri ve iliþkili volumeleri temizlemek için  $"docker-compose down -v" kullanabilirsiniz
 
-# Merhabalar
-# projenin ana dizininde (windows için powershell / cmd) $"docker-compose up --build"  komutunu çalýþtýrarak projeyi kaldýrabilirsiniz
-# Docker Compose ile baþlatýlmýþ servisleri ve iliþkili volumeleri temizlemek için  $"docker-compose down -v" kullanabilirsiniz
+ ################# Proje hakkýnda #################
 
-# ################# Proje hakkýnda #################
-
-# Onion Architecture yaklaþýmýnda bir mimariye sahiptir
-# Api olarak belirtilen klasörün içinde datanýn aktýðý Toyota.Api ve frontend projesi olan Toyota.Web bulunmaktadýr
-# $"docker-compose up --build" komutu ile mssql, api ve web projeleri ayaða kaldýrýlýr
+ Onion Architecture yaklaþýmýnda bir mimariye sahiptir
+ Api olarak belirtilen klasörün içinde datanýn aktýðý Toyota.Api ve frontend projesi olan Toyota.Web bulunmaktadýr
+ $"docker-compose up --build" komutu ile mssql, api ve web projeleri ayaða kaldýrýlýr
     
     --Api projesinin kalktýðý url;
 
@@ -30,15 +28,15 @@
        password : Password1*
 
 
-# proje kalkarken db oluþturulur ve ilk admin kullanýcýsý insert edilir
-# Toyota.Api / Data / cities.txt db ye aktarýlýr
+ proje kalkarken db oluþturulur ve ilk admin kullanýcýsý insert edilir
+ Toyota.Api / Data / cities.txt db ye aktarýlýr
 
-# projelerde .NET 8 kullanýlmýþtýr 
-# web projesi .NET 8 MVC olarak oluþturulmuþtur fakat MVC yapýsý sadece frontend e navigasyon ve auth saðlamak için kullanýlmýþtýr
+ projelerde .NET 8 kullanýlmýþtýr 
+ web projesi .NET 8 MVC olarak oluþturulmuþtur fakat MVC yapýsý sadece frontend e navigasyon ve auth saðlamak için kullanýlmýþtýr
 
-# Projede servis kayýtlarý  ve appalication loglarý olmak üzere 2 adet loglama bulunur
-#  servis kayýtlarý db de saklanýr application loglarý ise Toyota.Api/Data/ApplicationLogs.txt de saklanýr ve her bir log 1 satýrlýk alana yazýlýr
-# servis kayýtlarý için listeleme, insert, update ve delete iþlemleri yapýlabilir, 
+ Projede servis kayýtlarý  ve appalication loglarý olmak üzere 2 adet loglama bulunur
+  servis kayýtlarý db de saklanýr application loglarý ise Toyota.Api/Data/ApplicationLogs.txt de saklanýr ve her bir log 1 satýrlýk alana yazýlýr
+ servis kayýtlarý için listeleme, insert, update ve delete iþlemleri yapýlabilir, 
         
     
  
