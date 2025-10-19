@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Api/Toyota.Api/obj
+/Api/Toyota.Business/obj
+/Api/Toyota.Web/obj
+/Core/Toyota.Application/obj
+/Core/Toyota.Entities/obj
+/Infrastructure/Toyota.Services/obj
+/obj/Docker
+/Shared/Toyota.Shared/obj
+/Infrastructure/Toyota.Data/obj
