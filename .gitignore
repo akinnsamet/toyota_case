@@ -12,3 +12,13 @@
 /obj/Docker
 /Shared/Toyota.Shared/obj
 /Infrastructure/Toyota.Data/obj
+/Api/Toyota.Api/bin/Debug/net8.0
+/Api/Toyota.Business/bin/Debug/net8.0
+/Api/Toyota.Web/bin/Debug/net8.0
+/bin/Debug
+/Core/Toyota.Application/bin/Debug/net8.0
+/Core/Toyota.Entities/bin/Debug/net8.0
+/Infrastructure/Toyota.Data/bin/Debug/net8.0
+/Infrastructure/Toyota.Services/bin/Debug/net8.0
+/obj/Debug
+/Shared/Toyota.Shared/bin/Debug/net8.0
