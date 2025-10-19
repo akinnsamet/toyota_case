@@ -1,0 +1,388 @@
+﻿@{
+    ViewData["Title"] = "Araç Servis Kayıtları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_Sidebar")
+
+<main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Araç Servis Kayıtları</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="refreshTable()">Yenile</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="openCreateModal()">Ekle</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="vehicleServiceTable" class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Plaka</th>
+                                        <th>Marka</th>
+                                        <th>Model</th>
+                                        <th>KM</th>
+                                        <th>Model Yılı</th>
+                                        <th>Servis Tarihi</th>
+                                        <th>Garanti</th>
+                                        <th>Şehir</th>
+                                        <th>Servis Notu</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- DataTable will populate this -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+<!-- Create/Edit Modal -->
+<div class="modal fade" id="vehicleServiceModal" tabindex="-1" aria-labelledby="vehicleServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vehicleServiceModalLabel">Araç Servis Kaydı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="vehicleServiceForm">
+                <div class="modal-body">
+                    <input type="hidden" id="recordId" name="Id" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="licensePlate" class="form-label">Araç Plakası *</label>
+                            <input type="text" class="form-control" id="licensePlate" name="LicensePlate" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="brandName" class="form-label">Marka Adı *</label>
+                            <input type="text" class="form-control" id="brandName" name="BrandName" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="modelName" class="form-label">Model Adı *</label>
+                            <input type="text" class="form-control" id="modelName" name="ModelName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="mileage" class="form-label">KM Bilgisi *</label>
+                            <input type="number" class="form-control" id="mileage" name="Mileage" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="modelYear" class="form-label">Model Yılı</label>
+                            <input type="number" class="form-control" id="modelYear" name="ModelYear">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="serviceDate" class="form-label">Servise Geliş Tarihi *</label>
+                            <input type="date" class="form-control" id="serviceDate" name="ServiceDate" placeholder="yyyy/aa/gg" pattern="\d{4}/\d{2}/\d{2}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="hasWarranty" class="form-label">Garantisi Var mı?</label>
+                            <select class="form-select" id="hasWarranty" name="HasWarranty">
+                                <option value="">Seçiniz</option>
+                                <option value="true">Evet</option>
+                                <option value="false">Hayır</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="serviceCityId" class="form-label">Servis Şehri</label>
+                            <select class="form-select" id="serviceCityId" name="ServiceCityId">
+                                <option value="">Şehir Seçiniz</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="serviceNote" class="form-label">Servis Notu</label>
+                        <textarea class="form-control" id="serviceNote" name="ServiceNote" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Kayıt Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bu kaydı silmek istediğinizden emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let dataTable;
+        let cities = [];
+        let deleteRecordId = null;
+
+        $(document).ready(function() {
+            loadCities();
+            initializeDataTable();
+
+            $('#vehicleServiceForm').on('submit', function(e) {
+                e.preventDefault();
+                saveRecord();
+            });
+
+            $('#confirmDelete').on('click', function() {
+                if (deleteRecordId) {
+                    deleteRecord(deleteRecordId);
+                }
+            });
+        });
+
+        function loadCities() {
+            $.ajax({
+                url: '@Url.Action("GetCities", "Home")',
+                type: 'GET',
+                success: function(response) {
+                    if (response && response.returnObject) {
+                        cities = response.returnObject;
+                        populateCityDropdown();
+                    }
+                }
+            });
+        }
+
+        function populateCityDropdown() {
+            const citySelect = $('#serviceCityId');
+            citySelect.empty().append('<option value="">Şehir Seçiniz</option>');
+
+            cities.forEach(function(city) {
+                citySelect.append(`<option value="${city.id}">${city.cityName}</option>`);
+            });
+        }
+
+        function initializeDataTable() {
+            dataTable = $('#vehicleServiceTable').DataTable({
+                info: true,
+                retrieve: true,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                  ajax: {
+                    url: '@Url.Action("GetAll", "Home")',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: function(d) {
+                            return JSON.stringify({
+                                Draw: d.draw,
+                                SortingPaging: {
+                                    SortItem: {
+                                        ColumnName: d.columns[d.order[0].column].data,
+                                        ColumnOrder: d.order[0].dir === 'asc' ? 'Ascending' : 'Descending'
+                                    },
+                                    PageNumber: Math.floor(d.start / d.length) + 1,
+                                    NumberRecords: d.length
+                                },
+                                SearchText: d.search.value || ''
+                        });
+                    }
+                },
+                columns: [
+                    { data: 'licensePlate' },
+                    { data: 'brandName' },
+                    { data: 'modelName' },
+                    { data: 'mileage' },
+                    { data: 'modelYear' },
+                    {
+                        data: 'serviceDate',
+                        render: function(data) {
+                            if(data){
+                                return data.split('T')[0];
+                            }else{
+                                return '';
+                            }
+                        }
+                    },
+                    {
+                        data: 'hasWarranty',
+                        render: function(data) {
+                            if (data === true) return '<span class="badge bg-success">Evet</span>';
+                            if (data === false) return '<span class="badge bg-danger">Hayır</span>';
+                            return '<span class="badge bg-secondary">-</span>';
+                        }
+                    },
+                    {
+                        data: 'serviceCity',
+                        render: function(data) {
+                            return data?.cityName ?? "";
+                        }
+                    },
+                    {
+                        data: 'serviceNote',
+                        render: function(data) {
+                            return data ? (data.length > 50 ? data.substring(0, 50) + '...' : data) : '';
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: function(data, type, row) {
+                            return `
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="editRecord(${row.id})" title="Düzenle">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${row.id})" title="Sil">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json'
+                },
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+                order: [[5, 'desc']],
+                drawCallback: function(settings) {
+                    const api = this.api();
+                    const info = api.page.info();
+                    const text = `${info.recordsDisplay} kayıttan ${info.start + 1} - ${info.end} arasındaki kayıtlar gösteriliyor`;
+                    $(api.table().container()).find('.dataTables_info').text(text);
+                }
+            });
+        }
+
+
+        function refreshTable() {
+            dataTable.ajax.reload();
+        }
+
+        function openCreateModal() {
+            $('#vehicleServiceModalLabel').text('Yeni Araç Servis Kaydı');
+            $('#vehicleServiceForm')[0].reset();
+            $('#recordId').val('');
+            $('#vehicleServiceModal').modal('show');
+        }
+
+        function editRecord(id) {
+            $.ajax({
+                url: '@Url.Action("Get", "Home")',
+                type: 'GET',
+                data: { id: id },
+                success: function(response) {
+                    if (response && response.returnObject) {
+                        const record = response.returnObject;
+                        $('#recordId').val(record.id);
+                        $('#licensePlate').val(record.licensePlate);
+                        $('#brandName').val(record.brandName);
+                        $('#modelName').val(record.modelName);
+                        $('#mileage').val(record.mileage);
+                        $('#modelYear').val(record.modelYear);
+                        if(record.serviceDate){
+                            let d = record.serviceDate.split('T')[0];
+                             $('#serviceDate').val(d);
+                        }else{
+                            $('#serviceDate').val('');
+                        }
+                        if(record.hasWarranty != null){
+                             $('#hasWarranty').val(record.hasWarranty.toString()).change();
+                        }else{
+                             $('#hasWarranty').val("").change();
+                        }
+                        if(record.serviceCity != null){
+                             $('#serviceCityId').val(record.serviceCity.id).change();
+                        }else{
+                             $('#serviceCityId').val("").change();
+                        }
+                        $('#serviceNote').val(record.serviceNote);
+
+                        $('#vehicleServiceModalLabel').text('Araç Servis Kaydını Düzenle');
+                        $('#vehicleServiceModal').modal('show');
+                    }
+                }
+            });
+        }
+
+        function confirmDelete(id) {
+            deleteRecordId = id;
+            $('#deleteModal').modal('show');
+        }
+
+        function saveRecord() {
+            const formData = $('#vehicleServiceForm').serialize();
+            const isEdit = $('#recordId').val() !== '';
+            const url = isEdit ? '@Url.Action("Update", "Home")' : '@Url.Action("Create", "Home")';
+            const requestType = isEdit ? 'PUT' : 'POST';
+
+            $.ajax({
+                url: url,
+                type: requestType,
+                data: formData,
+                success: function(response) {
+                    if (response.result.resultCode == 0) {
+                        toastr.success(response.result?.resultMessage ?? "İşlem başarılı", 'Başarılı');
+                        $('#vehicleServiceModal').modal('hide');
+                        refreshTable();
+                    } else {
+                        toastr.error(response.result?.resultMessage ?? "İşlem sırasında bir hata oluştu", 'Hata');
+                    }
+                },
+                error: function() {
+                   toastr.error("İşlem sırasında bir hata oluştu", 'Hata');
+                }
+            });
+        }
+
+        function deleteRecord(id) {
+            $.ajax({
+                url: '@Url.Action("Delete", "Home")',
+                type: 'DELETE',
+                data: { id: id },
+                success: function(response) {
+                    if (response.result.resultCode == 0) {
+                        $('#deleteModal').modal('hide');
+                        toastr.success(response.result?.resultMessage ?? "İşlem başarılı", 'Başarılı');
+                        refreshTable();
+                    } else {
+                         toastr.error(response.result?.resultMessage ?? "İşlem sırasında bir hata oluştu", 'Hata');
+                    }
+                },
+                error: function() {
+                    toastr.error("İşlem sırasında bir hata oluştu", 'Hata');
+                }
+            });
+        }
+    </script>
+}
