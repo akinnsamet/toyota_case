@@ -14,7 +14,7 @@ namespace Toyota.Api.Controllers.Area
         private readonly string _logFilePath;
         public ApplicationLogController()
         {
-            _logFilePath = Path.Combine("/app/Data", "ApplicationLogs.txt");
+            _logFilePath = Path.Combine("/app/Data", "applicationLogs.txt");
         }
         #region Methods
 

@@ -13,7 +13,6 @@ namespace Toyota.Application.Logging
 {
     public class LogMiddleware(RequestDelegate next)
     {
-        private string _logFilePath = string.Empty;
         public async Task Invoke(HttpContext context)
         {
             try
@@ -27,7 +26,6 @@ namespace Toyota.Application.Logging
 
                 using (new CompositeDisposable(properties))
                 {
-                    _logFilePath = Path.Combine("/app/Data", "ApplicationLogs.txt");
                     await LogRequest(context);
                     await LogResponse(context);
                 }
@@ -128,11 +126,12 @@ namespace Toyota.Application.Logging
         {
             try
             {
-                var directory = Path.GetDirectoryName(_logFilePath);
+                var path = Path.Combine("/app/Data", "applicationLogs.txt");
+                var directory = Path.GetDirectoryName(path);
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory!);
 
-                await File.AppendAllTextAsync(_logFilePath, logText);
+                await File.AppendAllTextAsync(path, logText);
             }
             catch
             {}

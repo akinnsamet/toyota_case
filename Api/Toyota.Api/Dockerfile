@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
 EXPOSE 80
 
@@ -29,6 +28,10 @@ WORKDIR /app
 
 COPY --from=publish /app/publish .
 
+USER root
 COPY ["Api/Toyota.Api/Data/", "/app/Data/"]
+RUN chown -R app:app /app/Data
+
+USER app
 
 ENTRYPOINT ["dotnet", "Toyota.Api.dll"]
