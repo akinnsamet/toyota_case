@@ -106,13 +106,11 @@
                     },
                     dataSrc: function(json) {
                     return json.data.map((desc, index) => ({
-                        // id: index + 1,
                         description: desc
                     }));
                 }
                 },
                 columns: [
-                    // { data: 'id',orderable: false },
                     { data: 'description',orderable: false },                   
                     {
                         data: null,

@@ -35,7 +35,7 @@ namespace Toyota.Api.Controllers.Area
             {
                 lines = lines.Where(x => x.Contains(req.SearchText!)).ToList();
             }
-
+            lines = lines.OrderByDescending(x => x).ToList();
             int totalRecords = lines.Count;
             int numberRecords = req?.SortingPaging?.NumberRecords ?? 10;
             int pageNumber = req?.SortingPaging?.PageNumber ?? 1;

@@ -32,7 +32,7 @@ services:
       - toyota-network
 
   docker-demo-sqlserver:
-    container_name: docker-demo-sqlserver-container
+    container_name: docker-toyota-sqlserver-container
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y

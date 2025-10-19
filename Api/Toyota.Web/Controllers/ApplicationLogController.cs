@@ -29,7 +29,7 @@ namespace Toyota.Web.Controllers
             return Json(new
             {
                 draw = request.Draw,
-                data = response?.ReturnObject,
+                data = response?.ReturnObject ?? [],
                 recordsTotal = response?.TotalCount ?? 0,
                 recordsFiltered = response?.TotalCount ?? 0
             });
