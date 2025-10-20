@@ -31,6 +31,19 @@ services:
     networks:
       - toyota-network
 
+  toyota.react-web:
+    build:
+      context: ./Api/toyota.react-web
+      dockerfile: Dockerfile
+    ports:
+      - "5010:80"
+    environment:
+      - REACT_APP_API_BASE_URL=http://toyota.api:80
+    depends_on:
+      - toyota.api
+    networks:
+      - toyota-network
+
   docker-demo-sqlserver:
     container_name: docker-toyota-sqlserver-container
     image: mcr.microsoft.com/mssql/server:2022-latest
