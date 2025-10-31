@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+  toyota.api:
+    build:
+      context: .
+      dockerfile: Api/Toyota.Api/Dockerfile
+    ports:
+      - "5006:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - docker-demo-sqlserver
+    networks:
+      - toyota-network
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  toyota.web:
+    build:
+      context: .
+      dockerfile: Api/Toyota.Web/Dockerfile
+    ports:
+      - "5008:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ApiSettings__BaseUrl=http://toyota.api:80
+    depends_on:
+      - toyota.api
+    networks:
+      - toyota-network
+
+  toyota.react-web:
+    build:
+      context: ./Api/toyota.react-web
+      dockerfile: Dockerfile
+    ports:
+      - "5010:80"
+    environment:
+      - REACT_APP_API_BASE_URL=http://toyota.api:80
+    depends_on:
+      - toyota.api
+    networks:
+      - toyota-network
+
+  docker-demo-sqlserver:
+    container_name: docker-toyota-sqlserver-container
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1*
+    ports:
+      - 14330:1433
+    networks:
+      - toyota-network
+
+networks:
+  toyota-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:

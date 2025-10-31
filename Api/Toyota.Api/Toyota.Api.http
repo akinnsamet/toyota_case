@@ -1,0 +1,6 @@
+@Toyota.Api_HostAddress = http://localhost:5105
+
+GET {{Toyota.Api_HostAddress}}/swagger/
+Accept: application/json
+
+###

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Toyota.Application\Toyota.Application.csproj" />
+    <ProjectReference Include="..\..\Core\Toyota.Application\Toyota.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Toyota.Data\Toyota.Data.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Toyota.Services\Toyota.Services.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Toyota.Data\Toyota.Data.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Toyota.Services\Toyota.Services.csproj" />
+  </ItemGroup>
+
+</Project>
